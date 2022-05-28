@@ -2,6 +2,7 @@ package Principale;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -79,23 +80,27 @@ public class AppelBdd {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
 	      con = DriverManager.getConnection(url, username, password);
 	      
+	      //Version + sécurisé à creuser
+	      /*
+	      String query = "select * from client where id = ? AND mdp = ?";
+	      PreparedStatement stmt = con.prepareStatement(query);
+	      stmt.setInt(1, id);
+	      stmt.setString(2, Fonctions.sha256(mdp));*/
+	      //Ancienne version pour essayer la version plus sécurisé
 	      String query = "select * from client where id ="+id+" AND mdp = \""+Fonctions.sha256(mdp)+"\"";
-	      try (Statement stmt = con.createStatement()) {
-	    	  ResultSet rs = stmt.executeQuery(query);
-	    	  
-			  while (rs.next()) {
-				  int idBdd = rs.getInt("id");
-			      String nom = rs.getString("nom");
-			      String prenom = rs.getString("prenom");
-			      String adresse = rs.getString("adresse");
-			      String tel = rs.getString("numero");
-			      c = new Client(idBdd, nom, prenom, tel, adresse);
-			       
-			  }
-			  res = true;
-		  } catch (SQLException e) {
-		      System.out.println(e);
+	      Statement stmt = con.prepareStatement(query);
+    	  ResultSet rs = stmt.executeQuery(query);
+    	  
+		  while (rs.next()) {
+			  int idBdd = rs.getInt("id");
+		      String nom = rs.getString("nom");
+		      String prenom = rs.getString("prenom");
+		      String adresse = rs.getString("adresse");
+		      String tel = rs.getString("numero");
+		      c = new Client(idBdd, nom, prenom, tel, adresse);
+		       
 		  }
+		  res = true;
 		    
 	
 	    } catch (SQLException ex) {

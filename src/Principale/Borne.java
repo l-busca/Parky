@@ -2,9 +2,9 @@ package Principale;
 
 public class Borne {
 	boolean occupe; //physiquement
-	//reservé/disponible selon l'heure d'utilisation voulu
+	//reservï¿½/disponible selon l'heure d'utilisation voulu
 	
-	enum etat {
+	enum Etat {
 	    occupee,
 	    disponible,
 	    reserve,
