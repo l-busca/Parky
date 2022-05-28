@@ -1,5 +1,6 @@
 package fonctions;
 
+import java.security.MessageDigest;
 import java.util.Scanner;
 
 public class Fonctions {
@@ -11,7 +12,7 @@ public class Fonctions {
 			if (sc.hasNextInt()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entr�e recommencez : ");
 				sc.nextLine();
 			}
 		}
@@ -25,11 +26,55 @@ public class Fonctions {
 			if (sc.hasNextLine()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entr�e recommencez : ");
 				sc.nextLine();
 			}
 		}
 		String res = sc.next();
 		return res;
+	}
+	
+	//Sécurité
+	
+	//Protection injection SQL, pour les nom prenom etc pas grave si le mec s'appelle J@QU3S_xx si il veut s'appeler comme ça c'est son probleme mais pas d'injection sql, si faut le gerer on met juste regex [A-z] etc et c'est bon
+	public static String entreeStringSQL() {
+		String entree = entreeString();
+		while(entree.contains(";")) {
+			System.out.println("Charactère \';\' interdit veuillez ressayer");
+			sc.nextLine();
+			entree = entreeString();
+		}
+		sc.nextLine();
+		return entree;
+	}
+	
+	//On veut juste 10 chiffres si il met 9999999999 pas grave c'est son probleme et ça fonctionnera peut etre plus tard, c'est pour ça qu'on prend des string et pas des int parce que avec 10 chiffres on peut dépasser la limite 
+	public static String entreeTelephone() {
+		String entree = entreeStringSQL();
+		while((!(entree.matches("[0-9]{10}"))) && entree.length() != 10) {
+			System.out.println("Mauvais format de téléphone il faut 10 chiffres, veuillez ressayer");
+			sc.nextLine();
+			entree = entreeStringSQL();
+		}
+		sc.nextLine();
+		return entree;
+	}
+	
+	public static String sha256(String mot) {
+	    try {
+	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	        byte[] hash = digest.digest(mot.getBytes("UTF-8"));
+	        StringBuilder hexString = new StringBuilder();
+	        for (int i = 0; i < hash.length; i++) {
+	            String hex = Integer.toHexString(0xff & hash[i]);
+	            if(hex.length() == 1) {
+	            	hexString.append('0');
+	            }
+	            hexString.append(hex);
+	        }
+	        return hexString.toString();
+	    } catch(Exception ex){
+	       throw new RuntimeException(ex);
+	    }
 	}
 }
