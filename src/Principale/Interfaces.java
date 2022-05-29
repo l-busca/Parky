@@ -122,7 +122,7 @@ public class Interfaces {
 	
 	//fonction qui affiche les plaques du client connecté à la borne
 	public static void afficherPlaques() {
-        ArrayList<String> plaques= new ArrayList<String>();
+        ArrayList<String> plaques;
         try {
            plaques= AppelBdd.getPlaques(clientSession.getId());
         } catch (ClassNotFoundException e) {
@@ -206,7 +206,7 @@ public class Interfaces {
 				//prend en compte tous les choix autre que 1 2 et fait le 3 aussi
 				accueil();
 			}
-;		} else {
+		} else {
 			System.out.println("Heureux de vous revoir "+clientSession.getPrenom()+" !");
 		}
 		
@@ -215,8 +215,8 @@ public class Interfaces {
 
 
     //interface qui permet d'ajouter une plaque d'immatriculation
-    public static String ajouterPlaque() {
-        String res="";
+    public static void ajouterPlaque() {
+        String res;
 		if (clientSession != null) {
             System.out.println("Veuillez indiquer le numero de la nouvelle plaque du véhicule (au format AA-AAA-AA) :");
             res = Fonctions.entreeStringSQL();
@@ -232,9 +232,10 @@ public class Interfaces {
                 ajouterPlaque();
             }
 		} else {
-			//erreur connexion requise
+            System.out.println("Connexion requise");
+            accueil();
 		}
-		return res;
+
 	}
 
 

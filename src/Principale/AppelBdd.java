@@ -2,7 +2,6 @@ package Principale;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,13 +14,6 @@ public class AppelBdd {
 	public static String username = "root";
 	public static String password = "root";
 	public static String url = "jdbc:mysql://localhost:8889/parky";
-
-	//recuperation des infos de la bdd pour connexion etc
-    //todo getClient
-	public Client getClient(int id) {
-
-		return null;
-	}
 	
 	public static ArrayList<Integer> getIdBorneReservationDispo(String date, int minutes) throws ClassNotFoundException {
 		// RETOURNER LA LISTE DES BORNES DISPO ????? plutot
@@ -57,7 +49,7 @@ public class AppelBdd {
 	    return bornesId;
 	}
 	
-	public static boolean createReservation(int idClient, String plaque, int idBorne, String date, int temps) throws ClassNotFoundException {
+	public static void createReservation(int idClient, String plaque, int idBorne, String date, int temps) throws ClassNotFoundException {
 			
 			Connection con = null;
 			int idPossede = getPossede(idClient, plaque);
@@ -90,7 +82,6 @@ public class AppelBdd {
 		          System.out.println(ex.getMessage());
 		      }
 		    }
-		    return res;
 		}
 	
 	public static int getPossede(int idClient, String plaque) throws ClassNotFoundException {

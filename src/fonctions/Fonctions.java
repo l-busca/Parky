@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
+
 
 public class Fonctions {
 	public static Scanner sc = new Scanner(System.in);
@@ -22,8 +22,7 @@ public class Fonctions {
 				sc.nextLine();
 			}
 		}
-		int res = Integer.parseInt(sc.next());
-		return res;
+        return Integer.parseInt(sc.next());
 	}
 	
 	public static String entreeString() {
@@ -36,8 +35,7 @@ public class Fonctions {
 				sc.nextLine();
 			}
 		}
-		String res = sc.next();
-		return res;
+        return sc.next();
 	}
 	
 	public static boolean dateValide(String date) {
@@ -76,8 +74,7 @@ public class Fonctions {
 		Calendar converter = Calendar.getInstance();
 		converter.setTime(dateConv);
 		Date dateMilli = new Date(converter.getTimeInMillis()+minutes*60*1000);
-		String res = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
-		return res;
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
 	}
 
     public static boolean heureValide(String heure) {
