@@ -1,6 +1,9 @@
 package fonctions;
 
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Fonctions {
@@ -33,6 +36,23 @@ public class Fonctions {
 		String res = sc.next();
 		return res;
 	}
+	
+	public static boolean dateValide(String date) {
+		if(!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
+			System.out.println("Format incorrect");
+			return false;
+		}
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(date);
+            return true;
+        } catch (ParseException e) {
+        	System.out.println("Date incorrecte");
+            return false;
+        }
+        
+    }
 	
 	//Sécurité
 	

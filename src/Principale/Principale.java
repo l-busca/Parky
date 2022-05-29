@@ -15,7 +15,7 @@ public class Principale {
 		default:
 			//Terminal
 			if(Interfaces.accueil()) {
-				Interfaces.reservation();
+				Interfaces.reservationPlaque();
 			} else {
 				System.out.println("Echec de la connexion");
 			}

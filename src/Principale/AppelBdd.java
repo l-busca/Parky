@@ -12,8 +12,8 @@ import fonctions.Fonctions;
 
 public class AppelBdd {
 	public static String username = "root";
-	public static String password = "root";
-	public static String url = "jdbc:mysql://localhost:8889/parky";
+	public static String password = "";
+	public static String url = "jdbc:mysql://localhost:3306/parky";
 
 	//recuperation des infos de la bdd pour connexion etc
 	public Client getClient(int id) {
@@ -188,7 +188,7 @@ public class AppelBdd {
         return plaques;
     }
 
-    public static void AjoutPlaque(int clientId,String plaqueId) throws ClassNotFoundException {
+    public static void AjoutPlaque(int clientId,String plaqueId,int temp) throws ClassNotFoundException {
         Connection con = null;
         // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         try {
@@ -199,7 +199,9 @@ public class AppelBdd {
             String ajoutVehicule = "INSERT INTO `vehicule`(`plaque`) VALUES (\""+plaqueId+"\")";
 
             //requete qui fait le lien entre un vehicule et le client
-            String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\",0,1)";
+
+            String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\","+temp+",0)";
+
             try (Statement stmt = con.createStatement()) {
                 stmt.executeUpdate(ajoutVehicule);
             } catch (SQLException e) {
