@@ -5,9 +5,10 @@ import fonctions.*;
 public class Principale {
 	public static void main (String args[]) {
 		
+		//Il faut mettre vos identifiants MYSQL dans appelBdd
 		CheckReservation checker = new CheckReservation();
 		checker.init();
-		System.out.println("1.Borne\n2.Terminal\nPour le debug (temporaire)");
+		System.out.println("1.Borne\n2.Terminal\n");
 		int choix = Fonctions.entreeInt();
 		switch(choix) {
 		case 1:
@@ -22,9 +23,10 @@ public class Principale {
 				System.out.println("Echec de la connexion");
 			}
 			
-		}//
+		}
 		
-		checker.stop();
+		//checker.stop();
+		
 		
 
 	}
