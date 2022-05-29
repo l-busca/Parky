@@ -57,8 +57,10 @@ public class Fonctions {
         
     }
 	
+	//public static boolean 
+	
 	public static String addMinutestoDate(String date,int minutes) {
-		if (!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}\" \"[0-9]{2}:[0-9]{2}"))) {
+		if (!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}"))) {
 			if (dateValide(date)) {
 				date = date+" 00:00";
 			} else {
