@@ -25,7 +25,7 @@ public class Interfaces {
 		
 	}
 
-	//interface pour reserver
+	//interface pour la reservation, c'est la premiere partie qui demande la plaque
 	public static void reservationPlaque() {
 		//nuance avec 
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
@@ -67,38 +67,33 @@ public class Interfaces {
 		}
 	}
 	
+	//Interface pour la reservation, deuxieme partie qui recupere la date et qui fait la comparaison avec la BDD si la date est possible ou non
 	public static void reservationHoraire(String plaque) {
 		System.out.println("Plaque "+plaque+" choisie.");
 		System.out.println("Quelle date désirez vous reserver ? format yyyy-MM-dd");
-		//tant que date pas disponible refaire ou quitter, et qui matche pas la regex et qui est pas da
 		String date = Fonctions.entreeStringSQL();
 		while (!(Fonctions.dateValide(date))) {
-			//refaire ?etc ? ou donne une date valide puis apres si tu veux reviens en arriere
 			System.out.println("Veuillez ressayer : ");
 			date = Fonctions.entreeStringSQL();
 		}
 		
 		System.out.println("Quelle heure désirez vous reserver ? format HH:MM");
-		//pour heures
 		String heure = Fonctions.entreeStringSQL();
 		while (!(Fonctions.heureValide(heure))) {
 			//refaire ?etc ?
 			System.out.println("Veuillez ressayer :");
 			heure = Fonctions.entreeStringSQL();
 		}
-		//pareil pour lheure avec cette date, recommencer donc reservationHorraire(plaque) ou refaire ou quitter
 
 		System.out.println("Combien de temps ? (en minutes) :");
 		int temps = Fonctions.entreeInt();
-		//temps min max ??
-		//peut etre a ajouter dans param dans la bdd
+		//temps minimum de 15 minutes et max de 600 minutes
 		while (temps < 15 || temps > 600) {
 			System.out.println("Doit etre une valeure comprise entre 15 et 600, veuillez ressayer :");
 			temps = Fonctions.entreeInt();
 		}
 		
-		//AppelBdd
-		//faire appelbdd de la liste des borne dispo, avec l'ajout de la nouvelle fonction a la requette et continuer ça
+		//Recupere la liste des bornes disponibles, si il n'y en a pas alors aucune borne n'est disponible à cette heure 
 		ArrayList<Integer> idBorneDispo = null;
 		try {
 			idBorneDispo = AppelBdd.getIdBorneReservationDispo(date+" "+heure, temps);
@@ -136,7 +131,9 @@ public class Interfaces {
         }
 	}
 	
-	//Borne
+	/*
+	 * Borne
+	 */
 	
 	public static void accueilBorne() {
         Reservation reservation=null;
@@ -189,8 +186,7 @@ public class Interfaces {
 	
 	
 	
-	//methodes ?
-
+	//Interface de connexion
 	public static boolean connexion() {
 		clientSession = null;
 		

@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class Fonctions {
 	public static Scanner sc = new Scanner(System.in);
 	
+	//Recupere les entrees Int en evitant les erreurs
 	public static int entreeInt() {
 		boolean bon = false;
 		while (!(bon)) {
@@ -31,6 +32,8 @@ public class Fonctions {
         return Integer.parseInt(sc.next());
 	}
 	
+	
+	//Recupere les entrees String en evitant les erreurs
 	public static String entreeString() {
 		boolean bon = false;
 		while (!(bon)) {
@@ -44,6 +47,7 @@ public class Fonctions {
         return sc.next();
 	}
 	
+	//Dit si une date est dans le format valide
 	public static boolean dateValide(String date) {
 		if(!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
 			System.out.println("Format incorrect");
@@ -61,6 +65,7 @@ public class Fonctions {
         
     }
 	
+	//Dit si la date Entre et compris entre la date initial et la date Initial+ le temps
 	public static boolean entreDates(String initial, int tempsInitial, String dateEntre) {
 		Date dateConv = null;
 		Date dateEntreConv = null;
@@ -78,6 +83,7 @@ public class Fonctions {
 		return res;
 	}
 	
+	//Dit si la date actuelle est comprise entre la date recupérée et la date récupérée + le temps
 	public static boolean entreDatesLocalFromBdd(String dateBdd, int tempsBdd) {
 		Date dateConv = null;
 		//LocalDate now = LocalDate.now();
@@ -96,9 +102,8 @@ public class Fonctions {
 		boolean res = (now >= converter.getTimeInMillis() && now < converter.getTimeInMillis()+tempsBdd*60*1000);
 		return res;
 	}
-	
-	//public static boolean 
-	
+	 
+	//Ajoute à une date (string) le nombre de minutes renseigné
 	public static String addMinutestoDate(String date,int minutes) {
 		if (!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}"))) {
 			if (dateValide(date)) {
@@ -118,7 +123,9 @@ public class Fonctions {
 		Date dateMilli = new Date(converter.getTimeInMillis()+minutes*60*1000);
         return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
 	}
-
+	
+	
+	//Dit si une heure est au format valide
     public static boolean heureValide(String heure) {
         if(!(heure.matches("[0-9]{2}:[0-9]{2}"))) {
 			System.out.println("Format incorrect");
@@ -133,7 +140,7 @@ public class Fonctions {
 	
 	//Sécurité
 	
-	//Protection injection SQL, pour les nom prenom etc pas grave si le mec s'appelle J@QU3S_xx si il veut s'appeler comme ça c'est son probleme mais pas d'injection sql, si faut le gerer on met juste regex [A-z] etc et c'est bon
+	//Protection injection SQL pour les entrées clavier
 	public static String entreeStringSQL() {
 		String entree = entreeString();
 		while(entree.contains(";")) {
@@ -145,7 +152,7 @@ public class Fonctions {
 		return entree;
 	}
 	
-	//On veut juste 10 chiffres si il met 9999999999 pas grave c'est son probleme et ça fonctionnera peut etre plus tard, c'est pour ça qu'on prend des string et pas des int parce que avec 10 chiffres on peut dépasser la limite 
+	//Prend en entrée uniquement 10 chiffres
 	public static String entreeTelephone() {
 		String entree = entreeStringSQL();
 		while((!(entree.matches("[0-9]{10}"))) && entree.length() != 10) {
@@ -157,6 +164,7 @@ public class Fonctions {
 		return entree;
 	}
 	
+	//Crypte le mot au format sha256
 	public static String sha256(String mot) {
 	    try {
 	        MessageDigest digest = MessageDigest.getInstance("SHA-256");

@@ -5,9 +5,16 @@ import fonctions.*;
 public class Principale {
 	public static void main (String args[]) {
 		
-		//Il faut mettre vos identifiants MYSQL dans appelBdd
+		
+		/*
+		 * Il faut mettre vos identifiants MYSQL dans appelBdd
+		 */
+		
+		
+		//Regarde si une une borne est en cours de reservation
 		CheckReservation checker = new CheckReservation();
 		checker.init();
+		
 		System.out.println("1.Borne\n2.Terminal\n");
 		int choix = Fonctions.entreeInt();
 		switch(choix) {
@@ -25,7 +32,7 @@ public class Principale {
 			
 		}
 		
-		//checker.stop();
+		checker.stop();
 		
 		
 

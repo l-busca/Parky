@@ -3,7 +3,6 @@ package Principale;
 public class Borne {
     private final int id;
     private final Etat etat;
-	//reserv�/disponible selon l'heure d'utilisation voulu
 
     public Borne(int id, Etat etat){
         this.id=id;

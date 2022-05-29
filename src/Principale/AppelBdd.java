@@ -12,22 +12,18 @@ import fonctions.Fonctions;
 
 public class AppelBdd {
 	
-	//Il faut mettre ICI vous identifiants de BDD mySQl
+	//Il faut mettre ICI vos identifiants de BDD mySQl
 	public static String username = "root";
 	public static String password = "";
 	public static String url = "jdbc:mysql://localhost:3306/parky";
 	
 	public static ArrayList<Integer> getIdBorneReservationDispo(String date, int minutes) throws ClassNotFoundException {
-		// RETOURNER LA LISTE DES BORNES DISPO ????? plutot
 		Connection con = null;
-	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
 		ArrayList<Integer> bornesId = new ArrayList<Integer>();
 	    try {
-	    	//pour regarder si la library est importée je crois
+	    //pour regarder si la library est importée
 	      Class.forName("com.mysql.cj.jdbc.Driver");
 	      con = DriverManager.getConnection(url, username, password);
-	      //peut etre faire addminutestodate(date, -15) pour la date de base pour etre sur que y'a pas de truc dans les 15 minutes precedente si on fait ça pas besoin de verifier pour apres du coup (quoique si peut etre ajouter aussi un peu à l'heure de base)
-	      //le temps de depart entre les bornes quoi, ça pourrait etre un parametre
 	      String query = "SELECT borne.id FROM borne \r\n"
 	      		+ "WHERE borne.id NOT IN (SELECT borne.id FROM borne INNER JOIN reservation ON borne.id = reservation.borne WHERE date between \""+date+"\" and \""+Fonctions.addMinutestoDate(date, minutes)+"\");";
 	      Statement stmt = con.createStatement();
@@ -51,14 +47,12 @@ public class AppelBdd {
 	    return bornesId;
 	}
 	
+	//Requete creant une reservation dans la BDD
 	public static void createReservation(int idClient, String plaque, int idBorne, String date, int temps) throws ClassNotFoundException {
 			
 			Connection con = null;
 			int idPossede = getPossede(idClient, plaque);
 			boolean res = false;
-
-		    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
-
 		    try {
 		      Class.forName("com.mysql.cj.jdbc.Driver");
 		      con = DriverManager.getConnection(url, username, password);
@@ -86,12 +80,13 @@ public class AppelBdd {
 		    }
 		}
 	
+	//Requete retournant l'identifiant d'une possession (association entre un clien et un véhicule)
 	public static int getPossede(int idClient, String plaque) throws ClassNotFoundException {
 		//pourrait return le max(id) pour donner l'id du client à garder
 		Connection con = null;
 		boolean res = false;
 
-	    // on estime que y'a qu'une paire client/vehicule actif si il en fait plein de passagé ben elles sont inactifs direct à la fin, donc on retourne qu'un ID et pas une liste d'id du while
+	    // on estime que y'a qu'une paire client/vehicule actif si il en fait plein de passagé ben elles sont inactifs direct à la fin, donc on retourne qu'un ID et pas une liste d'id du while rs
 		int idPossede = 0; //dans la base id commence à 1 donc impossible 0
 	    try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
@@ -125,14 +120,14 @@ public class AppelBdd {
 	    return idPossede;
 	}
 
+	
+	///Fonction retournant le dernier client ajouté à la Bdd
 	public static Client getLastClient() throws ClassNotFoundException {
 		Connection con = null;
 		boolean res = false;
-	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
 	    Client c = null;
 
 	    try {
-	    	//pour regarder si la library est importée je crois
 	      Class.forName("com.mysql.cj.jdbc.Driver");
 	      con = DriverManager.getConnection(url, username, password);
 
@@ -169,13 +164,12 @@ public class AppelBdd {
 	    return c;
 	}
 	
+	//Retourne l'id de la derniere reservation ajouté
 	public static int getLastResId() throws ClassNotFoundException {
 		Connection con = null;
 		int res = 0;
-	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
 
 	    try {
-	    	//pour regarder si la library est importée je crois
 	      Class.forName("com.mysql.cj.jdbc.Driver");
 	      con = DriverManager.getConnection(url, username, password);
 
@@ -206,24 +200,16 @@ public class AppelBdd {
 	    return res;
 	}
 
+	//Retourne le client correspondant aux identifiants
 	public static Client connexion(int id, String mdp) throws ClassNotFoundException {
 		Connection con = null;
 		boolean res = false;
 
-	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
 	    Client c = null;
 
 	    try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
 	      con = DriverManager.getConnection(url, username, password);
-
-	      //Version + sécurisé à creuser
-	      /*
-	      String query = "select * from client where id = ? AND mdp = ?";
-	      PreparedStatement stmt = con.prepareStatement(query);
-	      stmt.setInt(1, id);
-	      stmt.setString(2, Fonctions.sha256(mdp));*/
-	      //Ancienne version pour essayer la version plus sécurisé
 	      String query = "select * from client where id ="+id+" AND mdp = \""+Fonctions.sha256(mdp)+"\"";
 	      Statement stmt = con.prepareStatement(query);
     	  ResultSet rs = stmt.executeQuery(query);
@@ -253,13 +239,12 @@ public class AppelBdd {
 	    }
 	    return c;
 	}
-
+	
+	//Fonction creant un compte sur la bdd
 	public static boolean createAccount(String nom, String prenom, String adresse, String numero, String carte, String mdp) throws ClassNotFoundException {
 		//pourrait return le max(id) pour donner l'id du client à garder
 		Connection con = null;
 		boolean res = false;
-
-	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
 
 	    try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
@@ -290,16 +275,14 @@ public class AppelBdd {
 	    return res;
 	}
 
-   //Prends en param
+   //Fonction retournant les plaques d'un client
     public static ArrayList<String> getPlaques(int clientId) throws ClassNotFoundException {
         Connection con = null;
         boolean res = false;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         ArrayList<String> plaques = new ArrayList<>();
 
 
         try {
-            //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
 
@@ -331,10 +314,10 @@ public class AppelBdd {
     }
 
 
+    //Change l'état d'une borne sur la bdd
     public static void changerEtatBorne(String etat,int borneId) throws ClassNotFoundException{
         Connection con = null;
         boolean res = false;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         ArrayList<String> plaques = new ArrayList<>();
 
 
@@ -362,15 +345,15 @@ public class AppelBdd {
         }
 
     }
+    
+    //Change l'etat d'une reservation sur la bdd
     public static void changerEtatReservation(String etat, int reservationId) throws ClassNotFoundException{
         Connection con = null;
         boolean res = false;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         ArrayList<String> plaques = new ArrayList<>();
 
 
         try {
-            //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
 
@@ -392,14 +375,14 @@ public class AppelBdd {
             }
         }
     }
+    
+    //Recupere l'id d'une borne sur la BDD
     public static Borne getBorne(int borneId) throws ClassNotFoundException {
         Connection con = null;
         boolean res = false;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         Borne borne = null;
 
         try {
-            //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
             String query = "SELECT * from borne WHERE id="+borneId;
@@ -430,13 +413,12 @@ public class AppelBdd {
         return borne;
     }
 
-
+    
+    //Retourne un objet reservation selon un id de reservation
     public static Reservation getReservation(int reservationId) throws ClassNotFoundException {
         Connection con = null;
         Reservation res=null;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         try {
-            //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
 
@@ -477,6 +459,7 @@ public class AppelBdd {
         return res;
     }
     
+    //Retourne toute les reservations
     public static ArrayList<Reservation> getAllReservations() throws ClassNotFoundException {
         Connection con = null;
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -523,15 +506,14 @@ public class AppelBdd {
         return reservations;
     }
 
+    //Trouve une rservation selon une plaque
     public static Reservation trouverReservation(String plaque) throws ClassNotFoundException {
         Connection con = null;
         Reservation res=null;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         try {
-            //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
-
+            //Prendra la derniere reservation à corriger
             String query = "SELECT r.* FROM reservation r inner join possede p on r.possession=p.id inner join vehicule v on v.plaque=p.vehicule WHERE plaque =\""+plaque+"\"";
             try (Statement stmt = con.createStatement()) {
                 stmt.executeQuery(query);
@@ -567,17 +549,16 @@ public class AppelBdd {
         }
         return res;
     }
+    
+    //Ajoute une plaque à un client à la bdd
     public static void AjoutPlaque(int clientId,String plaqueId,int temp) throws ClassNotFoundException {
         Connection con = null;
-        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
         try {
             //pour regarder si la library est importée je crois
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, username, password);
 
             String ajoutVehicule = "INSERT INTO `vehicule`(`plaque`) VALUES (\""+plaqueId+"\")";
-
-            //requete qui fait le lien entre un vehicule et le client
 
             String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\","+temp+",0)";
 

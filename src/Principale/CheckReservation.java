@@ -30,12 +30,12 @@ public class CheckReservation {
 		timer.cancel();//arrete le check
 	}
 	
+	//Regarde si une reservation est sensée commencer et met la borne en indisponible
 	public static void checkStartReservations() {
 		ArrayList<Reservation> res = new ArrayList<Reservation>();
 		try {
 			res = AppelBdd.getAllReservations();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for(int i = 0; i < res.size();i++) {
