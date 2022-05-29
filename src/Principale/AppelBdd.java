@@ -188,5 +188,41 @@ public class AppelBdd {
         return plaques;
     }
 
+    public static void AjoutPlaque(int clientId,String plaqueId) throws ClassNotFoundException {
+        Connection con = null;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String ajoutVehicule = "INSERT INTO `vehicule`(`plaque`) VALUES (\""+plaqueId+"\")";
+
+            //requete qui fait le lien entre un vehicule et le client
+            String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\",1,0)";
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(ajoutVehicule);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(lien);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 
 }

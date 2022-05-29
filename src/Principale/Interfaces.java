@@ -44,7 +44,7 @@ public class Interfaces {
 			//Si il a des plaques
 			if (plaques.size() > 0) {
 				// si il a des plaques
-				//afficherPlaques();
+				afficherPlaques();
 				int choixPlaque = Fonctions.entreeInt()-1;
 				while (choixPlaque < plaques.size() || choixPlaque >= plaques.size()) {
 					System.out.println("Choix invalide ");
@@ -69,6 +69,14 @@ public class Interfaces {
         for(int i=0;i<plaques.size();i++){
             System.out.println((i+1)+"."+plaques.get(i));
         }
+        int choix = Fonctions.entreeInt();
+        if (choix == 0){
+            ajouterPlaque();
+        }
+        else {
+
+        }
+
 	}
 	
 	//Borne
@@ -132,11 +140,22 @@ public class Interfaces {
 		
 		return true;
 	}
-	
-	public static boolean ajouterPlaque() {
+
+
+    public static boolean ajouterPlaque() {
 		if (clientSession != null) {
-			//faire le truc
-			afficherPlaques();
+            System.out.println("Veuillez indiquer le numero de la nouvelle plaque du véhicule (au format AA-AAA-AA) :");
+            String res = Fonctions.entreeStringSQL();
+            if(res.matches("[0-9A-Z]{2}-[0-9A-Z]{3}-[0-9A-Z]{2}")) {
+                try {
+                    AppelBdd.AjoutPlaque(clientSession.getId(),res);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                System.out.println("Erreur sur l'entree : reessayer \n");
+                ajouterPlaque();
+            }
 		} else {
 			//erreur connexion requise
 		}
