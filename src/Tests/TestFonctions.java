@@ -92,5 +92,36 @@ public class TestFonctions {
         assertFalse(heureValide(heure));
     }
 
-    
+    @Test
+    @DisplayName("ajout de 0 minutes")
+    public void AjoutZeroMinutesTest(){
+        assertEquals(addMinutestoDate("2022-03-03 18:33",0),"2022-03-03 18:33");
+    }
+
+    @Test
+    @DisplayName("mauvais format de date")
+    public void addMinuteMauvaisFormatTest(){
+        assertEquals(addMinutestoDate("azerazerazer",60),"2000-01-01 01:00");
+    }
+
+    @Test
+    @DisplayName("changement de mois")
+    public void changeMoisTest(){
+        assertEquals(addMinutestoDate("2022-03-31 23:30",60),"2022-04-01 00:30");
+    }
+
+    @Test
+    @DisplayName("changement de jour")
+    public void changeJourTest(){
+        assertEquals(addMinutestoDate("2022-03-30 23:30",60),"2022-03-31 00:30");
+    }
+
+    @Test
+    @DisplayName("changement d'annee")
+    public void changeAnneeTest(){
+        assertEquals(addMinutestoDate("2022-12-31 23:30",60),"2023-01-01 00:30");
+    }
+
+
+
 }
