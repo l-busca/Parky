@@ -1,5 +1,7 @@
 package fonctions;
 
+import Principale.Reservation;
+
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -172,4 +174,6 @@ public class Fonctions {
 	       throw new RuntimeException(ex);
 	    }
 	}
+
+    
 }

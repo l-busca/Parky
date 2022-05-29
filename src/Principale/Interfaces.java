@@ -169,8 +169,18 @@ public class Interfaces {
 				accueilBorne();
 			}
 		}
-        if(reservation!=null)
-            System.out.println(reservation);
+        if(reservation!=null){
+            if(Fonctions.entreDatesLocalFromBdd(reservation.getDate(),reservation.getTemps())){
+                try {
+                    AppelBdd.changerEtatReservation("present",reservation.getId());
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                System.out.println("avant l'heure c'est pas l'heure après l'heure c'est plus l'heure...");
+            }
+        }
+
 	}
 	
 	
