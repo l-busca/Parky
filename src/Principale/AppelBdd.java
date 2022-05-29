@@ -11,9 +11,11 @@ import fonctions.Fonctions;
 
 
 public class AppelBdd {
+	
+	//Il faut mettre ICI vous identifiants de BDD mySQl
 	public static String username = "root";
-	public static String password = "root";
-	public static String url = "jdbc:mysql://localhost:8889/parky";
+	public static String password = "";
+	public static String url = "jdbc:mysql://localhost:3306/parky";
 	
 	public static ArrayList<Integer> getIdBorneReservationDispo(String date, int minutes) throws ClassNotFoundException {
 		// RETOURNER LA LISTE DES BORNES DISPO ????? plutot

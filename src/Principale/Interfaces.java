@@ -108,7 +108,9 @@ public class Interfaces {
 		
 		if (idBorneDispo.size() > 0) {
 			try {
-				AppelBdd.createReservation(clientSession.getId(), plaque, temps, date+" "+heure, temps);
+				AppelBdd.createReservation(clientSession.getId(), plaque, idBorneDispo.get(0), date+" "+heure, temps);
+				System.out.println("Reservation bien effectuée avec le numero : (a ajouter)");
+				accueil();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

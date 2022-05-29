@@ -122,6 +122,10 @@ public class TestFonctions {
         assertEquals(addMinutestoDate("2022-12-31 23:30",60),"2023-01-01 00:30");
     }
 
-
-
+    @Test
+    @DisplayName("test entreDate")
+    public void EntreDateTest(){
+        assertTrue(entreDates("2022-12-31 23:30",1,"2022-12-31 23:30"));
+    }
+    
 }
