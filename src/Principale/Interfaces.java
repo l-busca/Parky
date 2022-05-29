@@ -66,12 +66,20 @@ public class Interfaces {
 		//tant que date pas disponible refaire ou quitter, et qui matche pas la regex et qui est pas da
 		String date = Fonctions.entreeStringSQL();
 		while (!(Fonctions.dateValide(date))) {
+			//refaire ?etc ? ou donne une date valide puis apres si tu veux reviens en arriere
+			System.out.println("Veuillez ressayer : ");
+			date = Fonctions.entreeStringSQL();
+		}
+		
+		System.out.println("Quelle heure désirez vous reserver ? format HH:MM");
+		//pour heures
+		while (!(Fonctions.dateValide(date))) {
 			//refaire ?etc ?
 			System.out.println("Veuillez ressayer :");
 			date = Fonctions.entreeStringSQL();
 		}
 		
-		System.out.println("Quelle heure désirez vous reserver ? format HH:MM");
+		System.out.println("Combien de temps ? (en minutes)");
 		//pareil pour lheure avec cette date, recommencer donc reservationHorraire(plaque) ou refaire ou quitter
 		
 	}

@@ -56,8 +56,7 @@ public class Fonctions {
     }
 
     public static boolean heureValide(String heure) {
-        if(!(heure.matches("[0-9]{2}-[0-9]{2}") || Integer.parseInt(heure.split(":")[0])<24
-        || Integer.parseInt(heure.split(":")[1])<60)) {
+        if(!(heure.matches("[0-9]{2}-[0-9]{2}") || Integer.parseInt(heure.split(":")[0])<24 || Integer.parseInt(heure.split(":")[1])<60)) {
             System.out.println("Format incorrect");
             return false;
         }
