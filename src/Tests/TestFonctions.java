@@ -73,4 +73,20 @@ public class TestFonctions {
         String heure = "2230";
         assertFalse(heureValide(heure));
     }
+
+    @Test
+    @DisplayName("heure non valide")
+    public void heureNonValideTest(){
+        String heure = "26:30";
+        assertFalse(heureValide(heure));
+    }
+
+    @Test
+    @DisplayName("minute non valide")
+    public void minuteNonValideTest(){
+        String heure = "23:61";
+        assertFalse(heureValide(heure));
+    }
+
+    
 }
