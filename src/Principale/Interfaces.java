@@ -1,6 +1,7 @@
 package Principale;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import fonctions.*;
 
@@ -33,15 +34,21 @@ public class Interfaces {
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
 		int choix = Fonctions.entreeInt();
 		if (choix == 1) {
-			
+            afficherPlaques();
 		}
 	}
 	
-	public static ArrayList<String[]> afficherPlaques() {
-		ArrayList<String[]> plaques = new ArrayList<>();
-		//affiche les plaques actuelles 
-		//et les retourne dans une liste avec des pairs [id],[plaque]
-		return plaques;
+	public static void afficherPlaques() {
+        ArrayList<String> plaques= new ArrayList<String>();
+        try {
+           plaques= AppelBdd.getPlaques(clientSession.getId());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("0.Nouvelle plaque");
+        for(int i=0;i<plaques.size();i++){
+            System.out.println((i+1)+"."+plaques.get(i));
+        }
 	}
 	
 	//Borne
