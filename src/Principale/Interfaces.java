@@ -73,14 +73,43 @@ public class Interfaces {
 		
 		System.out.println("Quelle heure désirez vous reserver ? format HH:MM");
 		//pour heures
-		while (!(Fonctions.dateValide(date))) {
+		String heure = Fonctions.entreeStringSQL();
+		while (!(Fonctions.heureValide(heure))) {
 			//refaire ?etc ?
 			System.out.println("Veuillez ressayer :");
-			date = Fonctions.entreeStringSQL();
+			heure = Fonctions.entreeStringSQL();
+		}
+		//pareil pour lheure avec cette date, recommencer donc reservationHorraire(plaque) ou refaire ou quitter
+
+		System.out.println("Combien de temps ? (en minutes) :");
+		int temps = Fonctions.entreeInt();
+		//temps min max ??
+		//peut etre a ajouter dans param dans la bdd
+		while (temps < 15 || temps > 600) {
+			System.out.println("Doit etre une valeure comprise entre 15 et 600, veuillez ressayer :");
+			temps = Fonctions.entreeInt();
 		}
 		
-		System.out.println("Combien de temps ? (en minutes)");
-		//pareil pour lheure avec cette date, recommencer donc reservationHorraire(plaque) ou refaire ou quitter
+		//AppelBdd
+		//faire appelbdd de la liste des borne dispo, avec l'ajout de la nouvelle fonction a la requette et continuer ça
+		ArrayList<Integer> idBorneDispo = null;
+		try {
+			idBorneDispo = AppelBdd.getIdBorneReservationDispo(date+" "+heure, temps);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		if (idBorneDispo.size() > 0) {
+			try {
+				AppelBdd.createReservation(clientSession.getId(), plaque, temps, date+" "+heure, temps);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Aucune borne n'est disponible pour cette date...\n1.Essayer une autre date\n2.Accueil");
+			int choix = Fonctions.entreeInt();
+			if (choix == 1) reservationHoraire(plaque);
+		}
 		
 	}
 	

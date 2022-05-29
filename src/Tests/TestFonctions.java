@@ -1,7 +1,11 @@
 package Tests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
+
+import fonctions.Fonctions;
 
 import static fonctions.Fonctions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestFonctions {
 
     @Test
-    @DisplayName("Test de la correspondance SHA256")
+    @DisplayName("Test de la correspondance SHA256 (verifié en ligne)")
     public void shaTest(){
         String sha = sha256("maison");
         String result = "ffd73d6baeb4efb7922347d91daf780335701edb022f86e7363073f714d7e8b0";
@@ -21,9 +25,9 @@ public class TestFonctions {
     @Test
     @DisplayName("Test nombre de caractère SHA256")
     public void nbCharSha(){
-        String sha = sha256("maison");
-        assertEquals(sha.length(), 64);
+    	assertEquals(64, Fonctions.sha256("Ce hash doit faire 64 caractères").length());
     }
+    
 
     @Test
     @DisplayName("date valide")
@@ -73,4 +77,20 @@ public class TestFonctions {
         String heure = "2230";
         assertFalse(heureValide(heure));
     }
+
+    @Test
+    @DisplayName("heure non valide")
+    public void heureNonValideTest(){
+        String heure = "26:30";
+        assertFalse(heureValide(heure));
+    }
+
+    @Test
+    @DisplayName("minute non valide")
+    public void minuteNonValideTest(){
+        String heure = "23:61";
+        assertFalse(heureValide(heure));
+    }
+
+    
 }

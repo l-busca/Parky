@@ -1,1 +1,12 @@
+/Principale/
 /Tests/
+<<<<<<< HEAD
+.classpath
+.project
+.idea
+*.iml
+.class
+=======
+/Principale/
+>>>>>>> 940277c8bb742b3c82ada83844b2beff55cb4b7f
+/fonctions/

@@ -12,24 +12,124 @@ import fonctions.Fonctions;
 
 
 public class AppelBdd {
-    public static void main(String[] args) {
-        try {
-            System.out.println(getReservation(1));
-            changerEtatReservation("retard",1);
-            System.out.println(getReservation(1));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 	public static String username = "root";
-	public static String password = "root";
-	public static String url = "jdbc:mysql://localhost:8889/parky";
+	public static String password = "";
+	public static String url = "jdbc:mysql://localhost:3306/parky";
 
 	//recuperation des infos de la bdd pour connexion etc
     //todo getClient
 	public Client getClient(int id) {
 
 		return null;
+	}
+	
+	public static ArrayList<Integer> getIdBorneReservationDispo(String date, int minutes) throws ClassNotFoundException {
+		// RETOURNER LA LISTE DES BORNES DISPO ????? plutot
+		Connection con = null;
+	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+		ArrayList<Integer> bornesId = new ArrayList<Integer>();
+	    try {
+	    	//pour regarder si la library est importée je crois
+	      Class.forName("com.mysql.cj.jdbc.Driver");
+	      con = DriverManager.getConnection(url, username, password);
+	      //peut etre faire addminutestodate(date, -15) pour la date de base pour etre sur que y'a pas de truc dans les 15 minutes precedente si on fait ça pas besoin de verifier pour apres du coup (quoique si peut etre ajouter aussi un peu à l'heure de base)
+	      //le temps de depart entre les bornes quoi, ça pourrait etre un parametre
+	      String query = "SELECT borne.id FROM borne \r\n"
+	      		+ "WHERE borne.id NOT IN (SELECT borne.id FROM borne INNER JOIN reservation ON borne.id = reservation.borne WHERE date between \""+date+"\" and \""+Fonctions.addMinutestoDate(date, minutes)+"\");";
+	      Statement stmt = con.createStatement();
+	      ResultSet rs = stmt.executeQuery(query);
+		  while (rs.next()) {
+			  bornesId.add(rs.getInt("id"));
+
+		  }
+
+	    } catch (SQLException ex) {
+	        throw new Error("Error ", ex);
+	    } finally {
+	      try {
+	        if (con != null) {
+	            con.close();
+	        }
+	      } catch (SQLException ex) {
+	          System.out.println(ex.getMessage());
+	      }
+	    }
+	    return bornesId;
+	}
+	
+	public static boolean createReservation(int idClient, String plaque, int idBorne, String date, int temps) throws ClassNotFoundException {
+			
+			Connection con = null;
+			int idPossede = getPossede(idClient, plaque);
+			boolean res = false;
+
+		    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+
+		    try {
+		      Class.forName("com.mysql.cj.jdbc.Driver");
+		      con = DriverManager.getConnection(url, username, password);
+
+		      String query = "INSERT INTO `reservation` (`termine`, `etat`, `borne`, `possession`, `prix`, `temps`, `date`, `prolonge`) VALUES ('0', 'attente', "+idBorne+", "+idPossede+", 10, "+temps+", \""+date+"\", '0');";
+
+		      try (Statement stmt = con.createStatement()) {
+			     stmt.executeUpdate(query);
+			     res = true;
+			  } catch (SQLException e) {
+			      System.out.println(e);
+			  }
+
+
+		    } catch (SQLException ex) {
+		        throw new Error("Error ", ex);
+		    } finally {
+		      try {
+		        if (con != null) {
+		            con.close();
+		        }
+		      } catch (SQLException ex) {
+		          System.out.println(ex.getMessage());
+		      }
+		    }
+		    return res;
+		}
+	
+	public static int getPossede(int idClient, String plaque) throws ClassNotFoundException {
+		//pourrait return le max(id) pour donner l'id du client à garder
+		Connection con = null;
+		boolean res = false;
+
+	    // on estime que y'a qu'une paire client/vehicule actif si il en fait plein de passagé ben elles sont inactifs direct à la fin, donc on retourne qu'un ID et pas une liste d'id du while
+		int idPossede = 0; //dans la base id commence à 1 donc impossible 0
+	    try {
+	      Class.forName("com.mysql.cj.jdbc.Driver");
+	      con = DriverManager.getConnection(url, username, password);
+
+	      String query = "SELECT * FROM possede where client = "+idClient+" AND vehicule = \""+plaque+"\" AND actif = 1";
+	      
+	      try (Statement stmt = con.createStatement()) {
+	    	 ResultSet rs = stmt.executeQuery(query);
+		     res = true;
+		     while (rs.next()) {
+				  idPossede = rs.getInt("id");
+
+			 }
+		  } catch (SQLException e) {
+		      System.out.println(e);
+		  }
+
+
+	    } catch (SQLException ex) {
+	        throw new Error("Error ", ex);
+	    } finally {
+	      try {
+	        if (con != null) {
+	            con.close();
+	        }
+	      } catch (SQLException ex) {
+	          System.out.println(ex.getMessage());
+	      }
+	    }
+	    return idPossede;
 	}
 
 	public static Client getLastClient() throws ClassNotFoundException {
