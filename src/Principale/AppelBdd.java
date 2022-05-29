@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import fonctions.Fonctions;
 
@@ -147,6 +148,11 @@ public class AppelBdd {
 	      }
 	    }
 	    return res;
+	}
+
+	public static ArrayList<String> getPlaques() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -33,16 +33,29 @@ public class Interfaces {
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
 		int choix = Fonctions.entreeInt();
 		if (choix == 1) {
+			ArrayList<String> plaques = new ArrayList<String>();
+			//verifier si il a des plaques sinon il va rester bloqué la 
+			try {
+				plaques = AppelBdd.getPlaques();
+			} catch (Exception e) {
+				
+			}
+			//Si il a des plaques
+			if (plaques.size() > 0) {
+				// si il a des plaques
+				//afficherPlaques();
+				int choixPlaque = Fonctions.entreeInt()-1;
+				while (choixPlaque < plaques.size() || choixPlaque >= plaques.size()) {
+					System.out.println("Choix invalide ");
+					choixPlaque = Fonctions.entreeInt()-1;
+				}
+			} else {
+				
+			}
 			
 		}
 	}
 	
-	public static ArrayList<String[]> afficherPlaques() {
-		ArrayList<String[]> plaques = new ArrayList<>();
-		//affiche les plaques actuelles 
-		//et les retourne dans une liste avec des pairs [id],[plaque]
-		return plaques;
-	}
 	
 	//Borne
 	
@@ -109,6 +122,7 @@ public class Interfaces {
 	public static boolean ajouterPlaque() {
 		if (clientSession != null) {
 			//faire le truc
+			afficherPlaques();
 		} else {
 			//erreur connexion requise
 		}
