@@ -201,6 +201,7 @@ public class Interfaces {
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                accueil();
             }else {
                 System.out.println("Erreur sur l'entree : reessayer \n");
                 ajouterPlaque();
