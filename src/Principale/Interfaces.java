@@ -84,11 +84,9 @@ public class Interfaces {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("0.Nouvelle plaque");
         for(int i=0;i<plaques.size();i++){
             System.out.println((i+1)+"."+plaques.get(i));
         }
-
 	}
 	
 	//Borne
@@ -154,10 +152,11 @@ public class Interfaces {
 	}
 
 
-    public static boolean ajouterPlaque() {
+    public static String ajouterPlaque() {
+        String res="";
 		if (clientSession != null) {
             System.out.println("Veuillez indiquer le numero de la nouvelle plaque du véhicule (au format AA-AAA-AA) :");
-            String res = Fonctions.entreeStringSQL();
+            res = Fonctions.entreeStringSQL();
             if(res.matches("[0-9A-Z]{2}-[0-9A-Z]{3}-[0-9A-Z]{2}")) {
                 try {
                     AppelBdd.AjoutPlaque(clientSession.getId(),res,1);
@@ -171,7 +170,7 @@ public class Interfaces {
 		} else {
 			//erreur connexion requise
 		}
-		return true;
+		return res;
 	}
 	
 	public static boolean inscription() {
