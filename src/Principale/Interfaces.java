@@ -1,5 +1,7 @@
 package Principale;
 
+import java.util.ArrayList;
+
 import fonctions.*;
 
 public class Interfaces {
@@ -33,6 +35,13 @@ public class Interfaces {
 		if (choix == 1) {
 			
 		}
+	}
+	
+	public static ArrayList<String[]> afficherPlaques() {
+		ArrayList<String[]> plaques = new ArrayList<>();
+		//affiche les plaques actuelles 
+		//et les retourne dans une liste avec des pairs [id],[plaque]
+		return plaques;
 	}
 	
 	//Borne
