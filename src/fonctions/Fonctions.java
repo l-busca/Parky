@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Fonctions {
 	public static Scanner sc = new Scanner(System.in);
@@ -52,6 +53,14 @@ public class Fonctions {
             return false;
         }
         
+    }
+
+    public static boolean heureValide(String heure) {
+        if(!(heure.matches("[0-9]{2}-[0-9]{2}") || Integer.parseInt(heure.split(":")[0])<24 || Integer.parseInt(heure.split(":")[1])<60)) {
+            System.out.println("Format incorrect");
+            return false;
+        }
+        return true;
     }
 	
 	//Sécurité
