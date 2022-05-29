@@ -29,7 +29,7 @@ public class Interfaces {
 	
 	//
 	
-	public static void reservation() {
+	public static void reservationPlaque() {
 		//nuance avec 
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
 		int choix = Fonctions.entreeInt();
@@ -39,22 +39,40 @@ public class Interfaces {
 			try {
 				plaques = AppelBdd.getPlaques(clientSession.getId());
 			} catch (Exception e) {
-				
+				System.out.println(e);
 			}
 			//Si il a des plaques
 			if (plaques.size() > 0) {
 				// si il a des plaques
-				//afficherPlaques();
+				afficherPlaques();
 				int choixPlaque = Fonctions.entreeInt()-1;
-				while (choixPlaque < plaques.size() || choixPlaque >= plaques.size()) {
+				while (choixPlaque < 0 || choixPlaque >= plaques.size()) {
 					System.out.println("Choix invalide ");
 					choixPlaque = Fonctions.entreeInt()-1;
 				}
+				
+				reservationHoraire(plaques.get(choixPlaque));
 			} else {
 				
 			}
 			
 		}
+	}
+	
+	public static void reservationHoraire(String plaque) {
+		System.out.println("Plaque "+plaque+" choisie.");
+		System.out.println("Quelle date désirez vous reserver ? format yyyy-MM-dd");
+		//tant que date pas disponible refaire ou quitter, et qui matche pas la regex et qui est pas da
+		String date = Fonctions.entreeStringSQL();
+		while (!(Fonctions.dateValide(date))) {
+			//refaire ?etc ?
+			System.out.println("Veuillez ressayer :");
+			date = Fonctions.entreeStringSQL();
+		}
+		
+		System.out.println("Quelle heure désirez vous reserver ? format HH:MM");
+		//pareil pour lheure avec cette date, recommencer donc reservationHorraire(plaque) ou refaire ou quitter
+		
 	}
 	
 	
@@ -136,7 +154,6 @@ public class Interfaces {
 	public static boolean ajouterPlaque() {
 		if (clientSession != null) {
 			//faire le truc
-			afficherPlaques();
 		} else {
 			//erreur connexion requise
 		}

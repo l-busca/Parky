@@ -12,8 +12,8 @@ import fonctions.Fonctions;
 
 public class AppelBdd {
 	public static String username = "root";
-	public static String password = "root";
-	public static String url = "jdbc:mysql://localhost:8889/parky";
+	public static String password = "";
+	public static String url = "jdbc:mysql://localhost:3306/parky";
 
 	//recuperation des infos de la bdd pour connexion etc
 	public Client getClient(int id) {
