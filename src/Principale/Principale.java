@@ -4,7 +4,7 @@ import fonctions.*;
 //classe principale qui permet de lancer la simulation de la borne
 public class Principale {
 	public static void main (String args[]) {
-		//CHECK TIME 10 SEC
+		
 		CheckReservation checker = new CheckReservation();
 		checker.init();
 		System.out.println("1.Borne\n2.Terminal\nPour le debug (temporaire)");

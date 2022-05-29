@@ -39,7 +39,6 @@ public class CheckReservation {
 			e.printStackTrace();
 		}
 		for(int i = 0; i < res.size();i++) {
-			System.out.println(Fonctions.entreDatesLocalFromBdd(res.get(i).getDate(), res.get(i).getTemps()));
 			if(Fonctions.entreDatesLocalFromBdd(res.get(i).getDate(), res.get(i).getTemps())) {
 				try {
 					AppelBdd.changerEtatBorne("indisponible", res.get(i).getBorne().getId());
