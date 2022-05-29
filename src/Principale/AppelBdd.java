@@ -13,8 +13,8 @@ import fonctions.Fonctions;
 
 public class AppelBdd {
 	public static String username = "root";
-	public static String password = "";
-	public static String url = "jdbc:mysql://localhost:3306/parky";
+	public static String password = "root";
+	public static String url = "jdbc:mysql://localhost:8889/parky";
 
 	//recuperation des infos de la bdd pour connexion etc
     //todo getClient
@@ -447,6 +447,51 @@ public class AppelBdd {
         return res;
     }
 
+    public static Reservation trouverReservation(String plaque) throws ClassNotFoundException {
+        Connection con = null;
+        Reservation res=null;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String query = "SELECT r.* FROM reservation r inner join possede p on r.possession=p.id inner join vehicule v on v.plaque=p.vehicule WHERE plaque =\""+plaque+"\"";
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeQuery(query);
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    System.out.println("je passe la");
+                    int idResa = rs.getInt("id");
+                    int termine = rs.getInt("termine");
+                    String etat = rs.getString("etat");
+                    int idborne =  rs.getInt("borne");
+                    Borne b=getBorne(idborne);
+                    int possession = rs.getInt("possession");
+                    double prix = rs.getDouble("prix");
+                    int prolonge=rs.getInt("prolonge");
+                    int temps = rs.getInt("temps");
+                    String date = rs.getString("date");
+                    res = new Reservation(idResa, (termine!=0), Reservation.Etat.valueOf(etat),b, (possession!=0), prix, prolonge, date, temps);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return res;
+    }
     public static void AjoutPlaque(int clientId,String plaqueId,int temp) throws ClassNotFoundException {
         Connection con = null;
         // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
