@@ -6,24 +6,27 @@ public class Reservation {
 	private int id;
 	private boolean termine;
 	private Etat etat;
-	private double tarif;
+    private Borne borne;
+    private boolean possession;
+	private double prix;
 	private int prolonge;
-	private LocalDateTime date;
+	private String date;
 	private int temps; //minutes
-	
-	
-	public Reservation(int id, boolean termine, Etat etat, double tarif, int prolonge, LocalDateTime date, int temps) {
-		this.id = id;
-		this.termine = termine;
-		this.etat = etat;
-		this.tarif = tarif;
-		this.prolonge = prolonge;
-		this.date = date;
-		this.temps = temps;
-	}
-	
-	
-	enum Etat {
+
+
+    public Reservation(int id, boolean termine, Etat etat, Borne b, boolean possession, double prix, int prolonge, String date, int temps) {
+        this.id = id;
+        this.termine = termine;
+        this.etat = etat;
+        this.borne = b;
+        this.possession = possession;
+        this.prix = prix;
+        this.prolonge = prolonge;
+        this.date = date;
+        this.temps = temps;
+    }
+
+    enum Etat {
 	    attente,
 	    present,
 	    retard,
@@ -73,15 +76,15 @@ public class Reservation {
 
 
 
-	public double getTarif() {
-		return tarif;
+	public double getPrix() {
+		return prix;
 	}
 
 
 
 
-	public void setTarif(double tarif) {
-		this.tarif = tarif;
+	public void setPrix(double prix) {
+		this.prix = prix;
 	}
 
 
@@ -101,14 +104,18 @@ public class Reservation {
 
 
 
-	public LocalDateTime getDate() {
+	public String getDate() {
 		return date;
 	}
 
 
 
 
-	public void setDate(LocalDateTime date) {
+
+
+
+
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -126,16 +133,23 @@ public class Reservation {
 		this.temps = temps;
 	}
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", termine=" + termine +
+                ", etat=" + etat +
+                ", borne=" + borne +
+                ", possession=" + possession +
+                ", prix=" + prix +
+                ", prolonge=" + prolonge +
+                ", date='" + date + '\'' +
+                ", temps=" + temps +
+                '}';
+    }
 
 
-
-	@Override
-	public String toString() {
-		return "Reservation [id=" + id + ", termine=" + termine + ", etat=" + etat + ", tarif=" + tarif + ", prolonge="
-				+ prolonge + ", date=" + date + ", temps=" + temps + "]";
-	}
-	
-	//methode retournant la date au format voulu
+//methode retournant la date au format voulu
 	
 	//methode static convertissant une date à un format pour le set ?
 	

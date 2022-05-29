@@ -8,8 +8,8 @@ import fonctions.*;
 public class Interfaces {
 	
 	public static Client clientSession;
-	
-	
+
+    //interface de l'accueil
 	public static boolean accueil() {
 		System.out.println("1. Connexion\n2. Inscription");
 		int choix = Fonctions.entreeInt();
@@ -28,7 +28,7 @@ public class Interfaces {
 	}
 	
 	//
-	
+	//interface pour reserver
 	public static void reservationPlaque() {
 		//nuance avec 
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
@@ -113,7 +113,7 @@ public class Interfaces {
 		
 	}
 	
-	
+	//fonction qui affiche les plaques du client connecté à la borne
 	public static void afficherPlaques() {
         ArrayList<String> plaques= new ArrayList<String>();
         try {
@@ -189,6 +189,7 @@ public class Interfaces {
 	}
 
 
+    //interface qui permet d'ajouter une plaque d'immatriculation
     public static String ajouterPlaque() {
         String res="";
 		if (clientSession != null) {
@@ -209,7 +210,9 @@ public class Interfaces {
 		}
 		return res;
 	}
-	
+
+
+    //interface pour s'inscrire
 	public static boolean inscription() {
 		boolean res = false;
 		clientSession = null;

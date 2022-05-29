@@ -1,7 +1,7 @@
 package Principale;
 import fonctions.*;
 
-
+//classe principale qui permet de lancer la simulation de la borne
 public class Principale {
 	public static void main (String args[]) {
 		//CHECK TIME 10 SEC
