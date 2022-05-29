@@ -10,12 +10,21 @@ import java.util.ArrayList;
 
 import fonctions.Fonctions;
 
+
 public class AppelBdd {
+    public static void main(String[] args) {
+        try {
+            System.out.println(getReservation(1));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 	public static String username = "root";
-	public static String password = "";
-	public static String url = "jdbc:mysql://localhost:3306/parky";
+	public static String password = "root";
+	public static String url = "jdbc:mysql://localhost:8889/parky";
 
 	//recuperation des infos de la bdd pour connexion etc
+    //todo getClient
 	public Client getClient(int id) {
 
 		return null;
@@ -188,6 +197,91 @@ public class AppelBdd {
         return plaques;
     }
 
+    public static Borne getBorne(int borneId) throws ClassNotFoundException {
+        Connection con = null;
+        boolean res = false;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        Borne borne = null;
+
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+            String query = "SELECT * from borne WHERE id="+borneId;
+            try (Statement stmt = con.createStatement()) {
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String etat = rs.getString("etat");
+                    borne = new Borne(id,Borne.Etat.valueOf(etat));
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return borne;
+    }
+
+
+    public static Reservation getReservation(int reservationId) throws ClassNotFoundException {
+        Connection con = null;
+        Reservation res=null;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String query = "SELECT * FROM reservation WHERE id="+reservationId;
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeQuery(query);
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int idResa = rs.getInt("id");
+                    int termine = rs.getInt("termine");
+                    String etat = rs.getString("etat");
+                    int idborne =  rs.getInt("borne");
+                    Borne b=getBorne(idborne);
+                    int possession = rs.getInt("possession");
+                    double prix = rs.getDouble("prix");
+                    int prolonge=rs.getInt("prolonge");
+                    int temps = rs.getInt("temps");
+                    String date = rs.getString("date");
+                    res = new Reservation(idResa, (termine!=0), Reservation.Etat.valueOf(etat),b, (possession!=0), prix, prolonge, date, temps);
+
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return res;
+    }
+
     public static void AjoutPlaque(int clientId,String plaqueId,int temp) throws ClassNotFoundException {
         Connection con = null;
         // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
@@ -226,5 +320,7 @@ public class AppelBdd {
             }
         }
     }
+
+
 
 }
