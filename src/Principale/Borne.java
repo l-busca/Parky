@@ -10,7 +10,7 @@ public class Borne {
         this.etat=etat;
     }
 	enum Etat {
-	    occupee,
+	    occupe,
 	    disponible,
 	    reserve,
 	    indisponible;
