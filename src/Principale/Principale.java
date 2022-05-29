@@ -2,7 +2,7 @@ package Principale;
 
 import fonctions.*;
 
-
+//classe principale qui permet de lancer la simulation de la borne
 public class Principale {
 	public static void main (String args[]) {
 		System.out.println("1.Borne\n2.Terminal\nPour le debug (temporaire)");
