@@ -168,6 +168,43 @@ public class AppelBdd {
 	    }
 	    return c;
 	}
+	
+	public static int getLastResId() throws ClassNotFoundException {
+		Connection con = null;
+		int res = 0;
+	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+
+	    try {
+	    	//pour regarder si la library est importée je crois
+	      Class.forName("com.mysql.cj.jdbc.Driver");
+	      con = DriverManager.getConnection(url, username, password);
+
+	      String query = "SELECT id from reservation ORDER BY id DESC LIMIT 1;";
+	      try (Statement stmt = con.createStatement()) {
+	    	  ResultSet rs = stmt.executeQuery(query);
+
+			  while (rs.next()) {
+				  res = rs.getInt("id");
+
+			  }
+		  } catch (SQLException e) {
+		      System.out.println(e);
+		  }
+
+
+	    } catch (SQLException ex) {
+	        throw new Error("Error ", ex);
+	    } finally {
+	      try {
+	        if (con != null) {
+	            con.close();
+	        }
+	      } catch (SQLException ex) {
+	          System.out.println(ex.getMessage());
+	      }
+	    }
+	    return res;
+	}
 
 	public static Client connexion(int id, String mdp) throws ClassNotFoundException {
 		Connection con = null;
@@ -500,7 +537,6 @@ public class AppelBdd {
                 stmt.executeQuery(query);
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    System.out.println("je passe la");
                     int idResa = rs.getInt("id");
                     int termine = rs.getInt("termine");
                     String etat = rs.getString("etat");

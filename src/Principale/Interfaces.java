@@ -109,7 +109,8 @@ public class Interfaces {
 		if (idBorneDispo.size() > 0) {
 			try {
 				AppelBdd.createReservation(clientSession.getId(), plaque, idBorneDispo.get(0), date+" "+heure, temps);
-				System.out.println("Reservation bien effectuée avec le numero : (a ajouter)");
+				int idRes = AppelBdd.getLastResId();
+				System.out.println("Reservation bien effectuée avec le numero : "+idRes);
 				accueil();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -175,6 +176,7 @@ public class Interfaces {
             if(Fonctions.entreDatesLocalFromBdd(reservation.getDate(),reservation.getTemps())){
                 try {
                     AppelBdd.changerEtatReservation("present",reservation.getId());
+                    System.out.println("Votre reservation est validée ! Merci de votre confiance");
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
