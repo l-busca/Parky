@@ -1,7 +1,7 @@
 package Principale;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 import fonctions.*;
 
@@ -16,25 +16,22 @@ public class Interfaces {
 		//Switch au cas ou l'accueil ajoute d'autres param�tres � l'avenir
 		switch(choix) {
 		case 1:
-			//Todo connexion
 			return connexion(/*param�tres*/);
 		case 2:
-			//Todo inscription
 			return inscription();
 		default:
 			return false;
 		}
 		
 	}
-	
-	
+
 	//interface pour reserver
 	public static void reservationPlaque() {
 		//nuance avec 
 		System.out.println("Voulez vous reserver une borne ? \n1.Oui\n2.Non");
 		int choix = Fonctions.entreeInt();
 		if (choix == 1) {
-			ArrayList<String> plaques = new ArrayList<String>();
+			ArrayList<String> plaques = new ArrayList<>();
 			//verifier si il a des plaques sinon il va rester bloqué la 
 			try {
 				plaques = AppelBdd.getPlaques(clientSession.getId());
@@ -44,17 +41,27 @@ public class Interfaces {
 			//Si il a des plaques
 			if (plaques.size() > 0) {
 				// si il a des plaques
-				System.out.println("0. nouvelle plaque");
+				System.out.println("0.Nouvelle plaque");
 				afficherPlaques();
 				int choixPlaque = Fonctions.entreeInt()-1;
-				while (choixPlaque < 0 || choixPlaque >= plaques.size()) {
+				while (choixPlaque < -1 || choixPlaque >= plaques.size()) {
 					System.out.println("Choix invalide ");
 					choixPlaque = Fonctions.entreeInt()-1;
 				}
+                if(choixPlaque==-1){
+                    ajouterPlaque();
+                }else {
+                    reservationHoraire(plaques.get(choixPlaque));
+                }
 				
-				reservationHoraire(plaques.get(choixPlaque));
+
 			} else {
-				
+                System.out.println("0.Nouvelle plaque \n1.Accueil");
+                int choixPlaque = Fonctions.entreeInt();
+                if(choixPlaque==0)
+                    ajouterPlaque();
+                else
+                    accueil();
 			}
 			
 		}
@@ -129,23 +136,41 @@ public class Interfaces {
 	//Borne
 	
 	public static void accueilBorne() {
+        Reservation reservation=null;
 		System.out.println("Bienvenue à Parky !");
 		System.out.println("Veuillez indiquer le numero de reservation ou la plaque du véhicule (au format AA-AAA-AA) :");
 		String res = Fonctions.entreeStringSQL();
 		if(res.matches("[0-9A-Z]{2}-[0-9A-Z]{3}-[0-9A-Z]{2}")) {
 			//plaque
-			System.out.println("Une plaque");
-		}else {
+            try {
+                reservation=AppelBdd.trouverReservation(res);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if (reservation==null){
+                System.out.println("La reservation n'existe pas");
+                accueilBorne();
+            }
+        }else {
 			if (res.matches("[0-9]+")) {
-				System.out.println("Un numéro");
-				//num reservation
-			} else {
+                try {
+                    reservation=AppelBdd.getReservation(Integer.parseInt(res)) ;
+                    if(reservation==null){
+                        System.out.println("La reservation n'existe pas");
+                        accueilBorne();
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
 				//entrée erreur
 				//passagé à refaire :
 				System.out.println("Erreur sur l'entree, retour à l'accueil\n");
 				accueilBorne();
 			}
 		}
+        if(reservation!=null)
+            System.out.println(reservation);
 	}
 	
 	
@@ -201,6 +226,7 @@ public class Interfaces {
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                accueil();
             }else {
                 System.out.println("Erreur sur l'entree : reessayer \n");
                 ajouterPlaque();
