@@ -4,6 +4,8 @@ import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -54,6 +56,20 @@ public class Fonctions {
         }
         
     }
+	
+	public static String addMinutestoDate(String date,int minutes) {
+		Date dateConv = null;
+		try {
+			dateConv= new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar converter = Calendar.getInstance();
+		converter.setTime(dateConv);
+		Date dateMilli = new Date(converter.getTimeInMillis()+32*60*1000);
+		String res = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
+		return res;
+	}
 
     public static boolean heureValide(String heure) {
         if(!(heure.matches("[0-9]{2}-[0-9]{2}") || Integer.parseInt(heure.split(":")[0])<24 || Integer.parseInt(heure.split(":")[1])<60)) {
