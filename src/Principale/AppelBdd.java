@@ -199,7 +199,7 @@ public class AppelBdd {
             String ajoutVehicule = "INSERT INTO `vehicule`(`plaque`) VALUES (\""+plaqueId+"\")";
 
             //requete qui fait le lien entre un vehicule et le client
-            String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\",1,0)";
+            String lien = "INSERT INTO `possede`(`client`, `vehicule`, `temporaire`, `actif`) VALUES (\""+clientId+"\",\""+plaqueId+"\",0,1)";
             try (Statement stmt = con.createStatement()) {
                 stmt.executeUpdate(ajoutVehicule);
             } catch (SQLException e) {
