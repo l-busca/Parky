@@ -13,7 +13,6 @@ public class Reservation {
 	
 	
 	public Reservation(int id, boolean termine, Etat etat, double tarif, int prolonge, LocalDateTime date, int temps) {
-		super();
 		this.id = id;
 		this.termine = termine;
 		this.etat = etat;

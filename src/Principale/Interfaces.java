@@ -4,6 +4,9 @@ import fonctions.*;
 
 public class Interfaces {
 	
+	public static Client clientSession;
+	
+	
 	public static boolean accueil() {
 		System.out.println("1. Connexion\n2. Inscription");
 		int choix = Fonctions.entreeInt();
@@ -59,7 +62,7 @@ public class Interfaces {
 	//methodes ?
 
 	public static boolean connexion() {
-		Client clientSession = null;
+		clientSession = null;
 		
 		System.out.println("Id : ");
 		int id = Fonctions.entreeInt();
@@ -94,9 +97,18 @@ public class Interfaces {
 		return true;
 	}
 	
+	public static boolean ajouterPlaque() {
+		if (clientSession != null) {
+			//faire le truc
+		} else {
+			//erreur connexion requise
+		}
+		return true;
+	}
+	
 	public static boolean inscription() {
 		boolean res = false;
-		Client clientSession = null;
+		clientSession = null;
 		
 		System.out.println("Nom : ");
 		String nom = Fonctions.entreeStringSQL();
@@ -106,6 +118,7 @@ public class Interfaces {
 		String tel = Fonctions.entreeTelephone();
 		System.out.println("Mot de passe : ");
 		String mdp = Fonctions.entreeStringSQL();
+		
 		
 		String adresse = "adresse de test";
 		String carte = "0000 1111 2222 4444";
@@ -118,6 +131,9 @@ public class Interfaces {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		
+		//ajouter option ajouter une plaque : Voulez vous ajouter une plaque oui / non 
+		ajouterPlaque();
 		
 		return res;
 	}

@@ -11,6 +11,9 @@ import fonctions.Fonctions;
 
 public class AppelBdd {
 	
+	public static String username = "root";
+	public static String password = "";
+	public static String url = "jdbc:mysql://localhost:3306/parky";
 	
 	//recuperation des infos de la bdd pour connexion etc
 	public Client getClient(int id) {
@@ -21,11 +24,7 @@ public class AppelBdd {
 	public static Client getLastClient() throws ClassNotFoundException {
 		Connection con = null;
 		boolean res = false;
-		
-	    String url = "jdbc:mysql://localhost:3306/parky";
 	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
-	    String username = "root";
-	    String password = "";
 	    Client c = null;
 	    
 	    try {
@@ -70,10 +69,7 @@ public class AppelBdd {
 		Connection con = null;
 		boolean res = false;
 		
-	    String url = "jdbc:mysql://localhost:3306/parky";
 	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
-	    String username = "root";
-	    String password = "";
 	    Client c = null;
 	    
 	    try {
@@ -122,10 +118,7 @@ public class AppelBdd {
 		Connection con = null;
 		boolean res = false;
 		
-	    String url = "jdbc:mysql://localhost:3306/parky";
 	    // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
-	    String username = "root";
-	    String password = "";
 	    
 	    try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
