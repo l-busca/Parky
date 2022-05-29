@@ -1,5 +1,6 @@
 package Principale;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,7 +17,7 @@ public class CheckReservation {
 		timer.schedule(new TimerTask() {
 		  @Override
 		  public void run() {
-		    //Check les trucs de la bdd
+		    
 		  }
 		}, 0, 2000);//chaque 2 secondes
 
@@ -25,5 +26,15 @@ public class CheckReservation {
 	
 	public void stop() {
 		timer.cancel();//arrete le check
+	}
+	
+	public void checkStartReservations() {
+		ArrayList<Reservation> res = new ArrayList<Reservation>();
+		try {
+			AppelBdd.getAllReservations();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -18,7 +18,7 @@ public class Fonctions {
 			if (sc.hasNextInt()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entree recommencez : ");
 				sc.nextLine();
 			}
 		}
@@ -32,7 +32,7 @@ public class Fonctions {
 			if (sc.hasNextLine()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entree recommencez : ");
 				sc.nextLine();
 			}
 		}
@@ -66,7 +66,7 @@ public class Fonctions {
 		}
 		Calendar converter = Calendar.getInstance();
 		converter.setTime(dateConv);
-		Date dateMilli = new Date(converter.getTimeInMillis()+32*60*1000);
+		Date dateMilli = new Date(converter.getTimeInMillis()+minutes*60*1000);
 		String res = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
 		return res;
 	}
