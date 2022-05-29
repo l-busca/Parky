@@ -31,7 +31,7 @@ public class CheckReservation {
 	public void checkStartReservations() {
 		ArrayList<Reservation> res = new ArrayList<Reservation>();
 		try {
-			AppelBdd.getAllReservations();
+			res = AppelBdd.getAllReservations();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -58,6 +58,13 @@ public class Fonctions {
     }
 	
 	public static String addMinutestoDate(String date,int minutes) {
+		if (!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}\" \"[0-9]{2}:[0-9]{2}"))) {
+			if (dateValide(date)) {
+				date = date+" 00:00";
+			} else {
+				date = "2000-01-01 00:00";
+			}
+		}
 		Date dateConv = null;
 		try {
 			dateConv= new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
