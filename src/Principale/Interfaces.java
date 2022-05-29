@@ -1,6 +1,7 @@
 package Principale;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import fonctions.*;
 
@@ -36,7 +37,7 @@ public class Interfaces {
 			ArrayList<String> plaques = new ArrayList<String>();
 			//verifier si il a des plaques sinon il va rester bloqué la 
 			try {
-				plaques = AppelBdd.getPlaques();
+				plaques = AppelBdd.getPlaques(clientSession.getId());
 			} catch (Exception e) {
 				
 			}
@@ -56,6 +57,19 @@ public class Interfaces {
 		}
 	}
 	
+	
+	public static void afficherPlaques() {
+        ArrayList<String> plaques= new ArrayList<String>();
+        try {
+           plaques= AppelBdd.getPlaques(clientSession.getId());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("0.Nouvelle plaque");
+        for(int i=0;i<plaques.size();i++){
+            System.out.println((i+1)+"."+plaques.get(i));
+        }
+	}
 	
 	//Borne
 	
