@@ -18,7 +18,7 @@ public class Fonctions {
 			if (sc.hasNextInt()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entree recommencez : ");
 				sc.nextLine();
 			}
 		}
@@ -32,7 +32,7 @@ public class Fonctions {
 			if (sc.hasNextLine()) {
 				bon = true;
 			} else {
-				System.out.println("Mauvaise entr�e recommencez : ");
+				System.out.println("Mauvaise entree recommencez : ");
 				sc.nextLine();
 			}
 		}
@@ -57,7 +57,16 @@ public class Fonctions {
         
     }
 	
+	//public static boolean 
+	
 	public static String addMinutestoDate(String date,int minutes) {
+		if (!(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}"))) {
+			if (dateValide(date)) {
+				date = date+" 00:00";
+			} else {
+				date = "2000-01-01 00:00";
+			}
+		}
 		Date dateConv = null;
 		try {
 			dateConv= new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
@@ -66,7 +75,7 @@ public class Fonctions {
 		}
 		Calendar converter = Calendar.getInstance();
 		converter.setTime(dateConv);
-		Date dateMilli = new Date(converter.getTimeInMillis()+32*60*1000);
+		Date dateMilli = new Date(converter.getTimeInMillis()+minutes*60*1000);
 		String res = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateMilli);
 		return res;
 	}

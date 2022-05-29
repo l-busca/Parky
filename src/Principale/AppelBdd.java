@@ -446,6 +446,52 @@ public class AppelBdd {
         }
         return res;
     }
+    
+    public static ArrayList<Reservation> getAllReservations() throws ClassNotFoundException {
+        Connection con = null;
+        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String query = "SELECT * FROM reservation";
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeQuery(query);
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int idResa = rs.getInt("id");
+                    int termine = rs.getInt("termine");
+                    String etat = rs.getString("etat");
+                    int idborne =  rs.getInt("borne");
+                    Borne b=getBorne(idborne);
+                    int possession = rs.getInt("possession");
+                    double prix = rs.getDouble("prix");
+                    int prolonge=rs.getInt("prolonge");
+                    int temps = rs.getInt("temps");
+                    String date = rs.getString("date");
+                    reservations.add(new Reservation(idResa, (termine!=0), Reservation.Etat.valueOf(etat),b, (possession!=0), prix, prolonge, date, temps));
+
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return reservations;
+    }
 
     public static Reservation trouverReservation(String plaque) throws ClassNotFoundException {
         Connection con = null;
