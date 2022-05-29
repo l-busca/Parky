@@ -240,8 +240,6 @@ public class Interfaces {
 			System.out.println(e);
 		}
 		
-		//ajouter option ajouter une plaque : Voulez vous ajouter une plaque oui / non 
-		ajouterPlaque();
 		
 		return res;
 	}

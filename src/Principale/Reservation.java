@@ -93,6 +93,10 @@ public class Reservation {
 	public int getProlonge() {
 		return prolonge;
 	}
+	
+	public Borne getBorne() {
+		return this.borne;
+	}
 
 
 

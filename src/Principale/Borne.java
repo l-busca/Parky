@@ -15,6 +15,10 @@ public class Borne {
 	    reserve,
 	    indisponible;
     }
+	
+	public int getId() {
+		return id;
+	}
 
     @Override
     public String toString() {

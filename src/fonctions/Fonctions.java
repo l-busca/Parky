@@ -4,6 +4,10 @@ import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
@@ -56,6 +60,42 @@ public class Fonctions {
         }
         
     }
+	
+	public static boolean entreDates(String initial, int tempsInitial, String dateEntre) {
+		Date dateConv = null;
+		Date dateEntreConv = null;
+		try {
+			dateConv= new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(initial);
+			dateEntreConv= new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dateEntre);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar converter = Calendar.getInstance();
+		converter.setTime(dateConv);
+		Calendar converter2 = Calendar.getInstance();
+		converter2.setTime(dateEntreConv);
+		boolean res = (converter2.getTimeInMillis() >= converter.getTimeInMillis() && converter2.getTimeInMillis() < converter.getTimeInMillis()+tempsInitial*60*1000);
+		return res;
+	}
+	
+	public static boolean entreDatesLocalFromBdd(String dateBdd, int tempsBdd) {
+		Date dateConv = null;
+		//LocalDate now = LocalDate.now();
+		LocalDateTime localDateTime = LocalDateTime.now();
+		  
+        ZonedDateTime zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        long now = zdt.toInstant().toEpochMilli();
+  
+		try {
+			dateConv= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateBdd);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar converter = Calendar.getInstance();
+		converter.setTime(dateConv);
+		boolean res = (now >= converter.getTimeInMillis() && now < converter.getTimeInMillis()+tempsBdd*60*1000);
+		return res;
+	}
 	
 	//public static boolean 
 	

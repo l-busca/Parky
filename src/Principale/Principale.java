@@ -5,6 +5,8 @@ import fonctions.*;
 public class Principale {
 	public static void main (String args[]) {
 		//CHECK TIME 10 SEC
+		CheckReservation checker = new CheckReservation();
+		checker.init();
 		System.out.println("1.Borne\n2.Terminal\nPour le debug (temporaire)");
 		int choix = Fonctions.entreeInt();
 		switch(choix) {
@@ -20,7 +22,9 @@ public class Principale {
 				System.out.println("Echec de la connexion");
 			}
 			
-		}
+		}//
+		
+		checker.stop();
 		
 
 	}
