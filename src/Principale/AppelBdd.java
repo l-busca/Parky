@@ -260,6 +260,7 @@ public class AppelBdd {
 	    return res;
 	}
 
+   //Prends en param
     public static ArrayList<String> getPlaques(int clientId) throws ClassNotFoundException {
         Connection con = null;
         boolean res = false;
@@ -299,6 +300,68 @@ public class AppelBdd {
         return plaques;
     }
 
+
+    public static void changerEtatBorne(String etat,int borneId) throws ClassNotFoundException{
+        Connection con = null;
+        boolean res = false;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        ArrayList<String> plaques = new ArrayList<>();
+
+
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String query ="UPDATE `borne` SET `etat` = \""+etat+"\"  WHERE id ="+borneId;
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+    }
+    public static void changerEtatReservation(String etat, int reservationId) throws ClassNotFoundException{
+        Connection con = null;
+        boolean res = false;
+        // pourrait gérer les utilisateurs de la base à voir si on a le temps et ça fait bcp de gérer ça + l'app etc en 1 mois qd meme donc pas obligatoire je pense
+        ArrayList<String> plaques = new ArrayList<>();
+
+
+        try {
+            //pour regarder si la library est importée je crois
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, username, password);
+
+            String query ="UPDATE `reservation` SET `etat` = \""+etat+"\"  WHERE id ="+reservationId;
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException ex) {
+            throw new Error("Error ", ex);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
     public static Borne getBorne(int borneId) throws ClassNotFoundException {
         Connection con = null;
         boolean res = false;
