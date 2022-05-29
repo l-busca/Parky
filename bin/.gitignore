@@ -1,1 +1,7 @@
+/Principale/
 /Tests/
+.classpath
+.project
+.idea
+*.iml
+.class
