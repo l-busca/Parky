@@ -41,7 +41,7 @@ public class Interfaces {
 			//Si il a des plaques
 			if (plaques.size() > 0) {
 				// si il a des plaques
-				System.out.println("0. nouvelle plaque");
+				System.out.println("0.Nouvelle plaque");
 				afficherPlaques();
 				int choixPlaque = Fonctions.entreeInt()-1;
 				while (choixPlaque < -1 || choixPlaque >= plaques.size()) {
@@ -56,7 +56,7 @@ public class Interfaces {
 				
 
 			} else {
-                System.out.println("0. nouvelle plaque \n1.accueil");
+                System.out.println("0.Nouvelle plaque \n1.Accueil");
                 int choixPlaque = Fonctions.entreeInt();
                 if(choixPlaque==0)
                     ajouterPlaque();
